@@ -7,35 +7,39 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MapperMapperTest {
+public class MapMapperTest {
 
 	private Map<Object, Object> map;
-	private MapperMapper mappermapper;
+	private MapMapper mappermapper;
 
 	@Before
 	public void setup() {
 		map = new HashMap<>();
+		
 		// simple first level property
 		map.put("foo", "bar");
+
 		// simple second level property
 		Map<Object, Object> properties = new HashMap<>();
 		properties.put("name", "Sedwig");
 		properties.put("age", 34);
 		properties.put("active", false);
+		map.put("properties", properties);		
+		
+		// simple third level properties
 		HashMap<Object, Object> things = new HashMap<>();
 		things.put("one", "A");
 		things.put("two", new String[] {"foo", "bar", "baz"});
 		things.put("three", false);
 		properties.put("things", things);
-		map.put("properties", properties);		
-		mappermapper = new MapperMapper(map);
+
+		mappermapper = new MapMapper(map);
 	}
 	
 	@Test
 	public void ensurePathToFirstLevelResolvesMapProperty() throws Exception {
 		Object value = mappermapper.valueForPath("foo");
 		Assert.assertEquals("Wrong value", "bar", value);
-		Assert.assertEquals("Wrong type", String.class, value.getClass());	
 	}
 	
 	@Test
@@ -51,7 +55,12 @@ public class MapperMapperTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void ensureThrowsWhenTryingToAccessBadPath() throws Exception {
-		mappermapper.valueForPath("properties.nooooo.crash");
+	public void ensureThrowsWhenTryingToAccessNonExistingMapPath() throws Exception {
+		mappermapper.valueForPath("properties.nope.nope");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void ensureThrowsWhenTryingToAccessPropertyOnValue() throws Exception {
+		mappermapper.valueForPath("properties.age.nope");
 	}
 }
