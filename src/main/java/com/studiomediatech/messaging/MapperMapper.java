@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 public class MapperMapper<T> {
@@ -37,7 +38,11 @@ public class MapperMapper<T> {
             f.setAccessible(true);
 
             try {
-                f.set(object, value);
+                if (Optional.class.isAssignableFrom(f.getType())) {
+                    f.set(object, Optional.ofNullable(value));
+                } else {
+                    f.set(object, value);
+                }
             } catch (IllegalArgumentException | IllegalAccessException e) {
                 throw new IllegalArgumentException("Could not set property on target object.", e);
             }
