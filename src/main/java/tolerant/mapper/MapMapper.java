@@ -1,4 +1,4 @@
-package com.studiomediatech.messaging;
+package tolerant.mapper;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -8,12 +8,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import tolerant.mapper.reflect.PathMappings;
 
 /**
  * This mapper knows how to traverse a given map and retrieve entries from it by
  * a dot-separated string path.
  */
-public class MapMapper {
+public class MapMapper implements PathMappings {
 
 	private final Map<Object, Object> map;
 
@@ -66,36 +69,6 @@ public class MapMapper {
 		return valueForPathInMap(tail, (Map<Object, Object>) object);
 	}
 
-	/**
-	 * Retrieves a list of path mappings for the given class.
-	 * 
-	 * @param clazz
-	 *            type to look for mappings in
-	 * 
-	 * @return a list of mappings, never {@code null}
-	 */
-	protected static List<Mapping> getMappings(Class<?> clazz) {
-		List<Mapping> mappings = new ArrayList<>();
-		mappingsOnType(clazz, mappings);
-		return Collections.unmodifiableList(mappings);
-	}
 
-	private static void mappingsOnType(Class<?> clazz, List<Mapping> mappings) {
-
-		if (clazz.getSuperclass().getSuperclass() != null) {
-			mappingsOnType(clazz.getSuperclass(), mappings);
-		}
-		
-		Predicate<Annotation> isPathAnnotation = a -> Path.class.isAssignableFrom(a.getClass());
-		Predicate<Field> hasAnyPathAnnotation = f -> Arrays.stream(f.getAnnotations()).filter(isPathAnnotation)
-				.findAny().isPresent();
-
-		for (Field f : clazz.getDeclaredFields()) {
-			if (hasAnyPathAnnotation.test(f)) {
-				Annotation annotation = Arrays.stream(f.getAnnotations()).filter(isPathAnnotation).findFirst().get();
-				mappings.add(new Mapping((Path) annotation, f));
-			}
-		}
-	}
 
 }

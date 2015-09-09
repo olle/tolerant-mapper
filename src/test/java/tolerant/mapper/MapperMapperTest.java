@@ -1,7 +1,10 @@
-package com.studiomediatech.messaging;
+package tolerant.mapper;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import tolerant.mapper.MapperMapper;
+import tolerant.mapper.Path;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.studiomediatech.messaging;
+package tolerant.mapper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,6 +6,8 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import tolerant.mapper.MapMapper;
 
 public class MapMapperTest {
 

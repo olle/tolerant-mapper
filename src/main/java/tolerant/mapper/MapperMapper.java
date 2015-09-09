@@ -1,4 +1,4 @@
-package com.studiomediatech.messaging;
+package tolerant.mapper;
 
 import java.lang.reflect.Field;
 
@@ -31,25 +31,29 @@ public class MapperMapper<T> {
         MapMapper mapper = new MapMapper(map);
 
         for (Mapping m : mappings) {
-            String path = m.getPath();
-            Field f = m.getField();
-
-            Object value = mapper.valueForPath(path);
-            f.setAccessible(true);
-
-            try {
-                if (Optional.class.isAssignableFrom(f.getType())) {
-                    f.set(object, Optional.ofNullable(value));
-                } else {
-                    f.set(object, value);
-                }
-            } catch (IllegalArgumentException | IllegalAccessException e) {
-                throw new IllegalArgumentException("Could not set property on target object.", e);
-            }
+            transformMapping(object, mapper, m);
         }
 
         return object;
     }
+
+	private void transformMapping(final T target, MapMapper mapper, Mapping m) {
+		String path = m.getPath();
+		Field f = m.getField();
+
+		Object value = mapper.valueForPath(path);
+		f.setAccessible(true);
+
+		try {
+		    if (Optional.class.isAssignableFrom(f.getType())) {
+		        f.set(target, Optional.ofNullable(value));
+		    } else {
+		        f.set(target, value);
+		    }
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+		    throw new IllegalArgumentException("Could not set property on target object.", e);
+		}
+	}
 
 
     public static <T> MapperMapper<T> forClass(Class<T> clazz) {

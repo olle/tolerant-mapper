@@ -1,4 +1,4 @@
-package com.studiomediatech.messaging;
+package tolerant.mapper;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
