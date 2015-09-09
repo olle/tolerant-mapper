@@ -2,43 +2,15 @@ package tolerant.mapper;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
-import org.junit.Before;
+import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
-import tolerant.mapper.read.MapResolver;
-import tolerant.mapper.reflect.FieldSetter;
-import tolerant.mapper.reflect.MappingCollector;
-import tolerant.mapper.reflect.ObjectInstantiator;
-
-@RunWith(MockitoJUnitRunner.class)
 public class MapperTest {
-
-	@Mock
-	MappingCollector collector;
-	@Mock
-	ObjectInstantiator<Object> instantiator;
-	@Mock
-	FieldSetter setter;
-	@Mock
-	MapResolver resolver;
-
-	Mapper<Object> mapper;
-
-	@Before
-	public void setup() {
-		this.mapper = new Mapper<>(Object.class, collector, instantiator, setter, resolver);
-	}
 
 	@Test
 	public void ensureCreateMapperForTypeThroughStaticFactoryMethod() {
@@ -48,16 +20,63 @@ public class MapperTest {
 	}
 
 	@Test
-	public void ensureTransformUsesDelegates() {
+    public void ensureMapsMapPropertyToAnnotatedFields() throws Exception {
 
-		when(collector.collectMappings(any())).thenReturn(Arrays.asList(new PathMapping("", null)));
+        Map<Object, Object> properties = new HashMap<>();
+        properties.put("active", true);
 
-		mapper.transform(new HashMap<>());
+        Map<Object, Object> raul = new HashMap<>();
+        raul.put("name", "Raul Esteban Marques");
+        raul.put("age", 71);
+        raul.put("properties", properties);
 
-		verify(instantiator).newInstance();
-		verify(collector).collectMappings(any());
-		verify(resolver).valueForPath(anyString(), any());
-		verify(setter).setValue(any(), any(), any());
+        Map<Object, Object> map = new HashMap<>();
+        map.put("foo", raul);
+
+        Foo foo = Mapper.forType(Foo.class).transform(map);
+
+        Assert.assertEquals("Wrong name", "Raul Esteban Marques", foo.name);
+        Assert.assertEquals("Wrong age", 71, foo.age);
+        Assert.assertEquals("Not active", true, foo.active);
+    }
+
+
+    @Test
+    public void ensureMapsMapPropertiesToAnnotatedFieldsAsNullableOptionals() throws Exception {
+
+        Map<Object, Object> vcard = new HashMap<>();
+        vcard.put("nickName", "roggy");
+
+        Map<Object, Object> user = new HashMap<>();
+        user.put("name", "rmoore");
+        user.put("vcard", vcard);
+
+        Map<Object, Object> map = new HashMap<>();
+        map.put("user", user);
+
+        Bar bar = Mapper.forType(Bar.class).transform(map);
+
+        Assert.assertEquals("Wrong username", "rmoore", bar.username);
+        Assert.assertEquals("Must not be present", false, bar.niceName.isPresent());
+        Assert.assertEquals("Wrong nickname", "roggy", bar.nickName.get());
+    }	
+	
+	public static class Foo {
+		@Path("foo.name")
+		private String name;
+		@Path("foo.age")
+		private int age;
+		@Path("foo.properties.active")
+		private Boolean active;
+	}
+
+	public static class Bar {
+		@Path("user.name")
+		private String username;
+		@Path("user.vcard.fullName")
+		private Optional<String> niceName;
+		@Path("user.vcard.nickName")
+		private Optional<String> nickName;
 	}
 
 }

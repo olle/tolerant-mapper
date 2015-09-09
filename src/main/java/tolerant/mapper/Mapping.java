@@ -2,7 +2,7 @@ package tolerant.mapper;
 
 import java.lang.reflect.Field;
 
-public class Mapping {
+public final class Mapping {
 
 	private final Path path;
 	private final Field field;
@@ -12,12 +12,11 @@ public class Mapping {
 		this.field = field;
 	}
 
-	public String getPath() {
-		return this.path.value();
+	public Path getPath() {
+		return path;
 	}
 
 	public Field getField() {
-		return this.field;
+		return field;
 	}
-
 }

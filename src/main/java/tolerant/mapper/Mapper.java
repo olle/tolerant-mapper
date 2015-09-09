@@ -3,11 +3,10 @@ package tolerant.mapper;
 import java.util.List;
 import java.util.Map;
 
-import tolerant.mapper.read.MapResolver;
-import tolerant.mapper.reflect.FieldSetter;
-import tolerant.mapper.reflect.MappingCollector;
-import tolerant.mapper.reflect.ObjectInstantiator;
-import tolerant.mapper.transform.MapTransformer;
+import tolerant.mapper.parse.Collector;
+import tolerant.mapper.reflect.Instantiator;
+import tolerant.mapper.simple.SimpleFactory;
+import tolerant.mapper.transform.Transformer;
 
 /**
  * Provides a simple and intuitive way to transform data into an annotated
@@ -28,26 +27,20 @@ import tolerant.mapper.transform.MapTransformer;
  * 
  * @author Olle Törnström - olle@studiomediatech.com
  */
-public final class Mapper<T> implements MapTransformer<T> {
+public final class Mapper<T> {
 
 	private final Class<T> type;
 
-	private final MappingCollector collector;
-	private final ObjectInstantiator<T> instantiator;
-	private final FieldSetter setter;
-	private final MapResolver resolver;
+	private final Instantiator<T> instantiator;
+	private final Collector collector;
+	private final Transformer transformer;
 
 	private Mapper(Class<T> type) {
-		this(type, null, null, null, null);
-	}
-
-	protected Mapper(Class<T> type, MappingCollector collector, ObjectInstantiator<T> instantiator, FieldSetter setter,
-			MapResolver resolver) {
 		this.type = type;
-		this.collector = collector;
-		this.instantiator = instantiator;
-		this.setter = setter;
-		this.resolver = resolver;
+
+		this.instantiator = SimpleFactory.createInstantiator(type);
+		this.collector = SimpleFactory.createCollector();
+		this.transformer = SimpleFactory.createTransformer();
 	}
 
 	/**
@@ -63,15 +56,14 @@ public final class Mapper<T> implements MapTransformer<T> {
 		return new Mapper<>(type);
 	}
 
-	@Override
 	public T transform(Map<Object, Object> source) {
 
 		T object = instantiator.newInstance();
 
-		List<PathMapping> mappings = collector.collectMappings(type);
+		List<Mapping> mappings = collector.collectMappings(type);
 
-		for (PathMapping mapping : mappings) {
-			mapping.transform(source, object, resolver, setter);
+		for (Mapping mapping : mappings) {
+			transformer.transform(mapping, source, object);
 		}
 
 		return object;
