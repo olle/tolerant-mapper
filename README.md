@@ -55,7 +55,7 @@ _Oh, yes. Well I'm wondering if you could help me to find a solution more
 _It's a POJO, with some annotated fields._
 
 > That's right. Now the `Path` annotation describes a mapping to another
-  data structure. What does it look familiar?
+  data structure. Does it look familiar?
   
 _Yeah it looks like some kind of object notation format... is it JSON?_
 
@@ -86,8 +86,9 @@ _Cool._
        
     }
 
-> It is of course important not to change the semantics of the internal
-  format, but as you see we're fully open to adapt to the change.
+> It's of course important not to change the semantics of the internal
+  representation, but as you see we're fully open to adapt to the
+  external format change, without modifying our internal type.
   
 _Wow. Great!_
 
@@ -129,6 +130,12 @@ _Perfect! This looks great, so how do I get started?_
 _No problem. I can just `mvn install` right?_
 
 > Yes, that should do it.
+
+_And how do I actually use it then?_
+
+> For now, have a look inside the `src/test/java/` directory, look at the
+  test for the `Mapper`-class. It describes the general idea, until I get
+  the chance to add some more documentation. Ok?
 
 _Thank you! Finally, decoupling and services without the problem of data
  transfer formats._
