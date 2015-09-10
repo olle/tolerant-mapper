@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/olle/tolerant-mapper.svg?branch=master)](https://travis-ci.org/olle/tolerant-mapper)
+
 _Hi, have you heard about [TolerantReader][1]?_
 
 > Yes, sure! Why?
