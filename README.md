@@ -143,4 +143,4 @@ _Thank you! Finally, decoupling and services without the problem of data
 > Glad I could help. And happy hacking!
 
 [1]: http://martinfowler.com/bliki/TolerantReader.html
-[2]: src/test/java/tolerant.mapper/MapperTest.java
+[2]: src/test/java/tolerant/mapper/MapperTest.java
