@@ -134,8 +134,8 @@ _No problem. I can just `mvn install` right?_
 _And how do I actually use it then?_
 
 > For now, have a look inside the `src/test/java/` directory, look at the
-  test for the `Mapper`-class. It describes the general idea, until I get
-  the chance to add some more documentation. Ok?
+  [`MapperTest`][2]. It describes the general idea, until I get the chance
+  to add some more documentation. Ok?
 
 _Thank you! Finally, decoupling and services without the problem of data
  transfer formats._
@@ -143,3 +143,4 @@ _Thank you! Finally, decoupling and services without the problem of data
 > Glad I could help. And happy hacking!
 
 [1]: http://martinfowler.com/bliki/TolerantReader.html
+[2]: src/test/java/tolerant.mapper/MapperTest.java
