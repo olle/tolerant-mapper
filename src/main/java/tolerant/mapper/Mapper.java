@@ -25,6 +25,9 @@ import tolerant.mapper.transform.Transformer;
  * issue.
  * </p>
  * 
+ * @param <T>
+ *            target object type
+ * 
  * @author Olle Törnström - olle@studiomediatech.com
  */
 public final class Mapper<T> {
@@ -50,12 +53,22 @@ public final class Mapper<T> {
 	 *            specifying the target object type to transform the mapping
 	 *            into
 	 * 
+	 * @param <T>
+	 *            type of the mapper target object
 	 * @return a new instance, never {@code null}
 	 */
 	public static <T> Mapper<T> forType(Class<T> type) {
 		return new Mapper<>(type);
 	}
 
+	/**
+	 * Transforms from the given map data-structure into a target instance
+	 * object for this mapper.
+	 * 
+	 * @param source
+	 *            to map from
+	 * @return a new target object instance, never {@code null}
+	 */
 	public T transform(Map<Object, Object> source) {
 
 		T object = instantiator.newInstance();
