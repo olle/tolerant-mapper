@@ -14,6 +14,8 @@ public interface Collector {
 	 * 
 	 * @param type
 	 *            to look for path mappings in
+	 * @param <T>
+	 *            class type
 	 * 
 	 * @return a list of mapping, or an empty list if none were found, never
 	 *         {@code null}

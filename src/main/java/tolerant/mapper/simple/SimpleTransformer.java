@@ -7,14 +7,18 @@ import tolerant.mapper.map.Mapper;
 import tolerant.mapper.reflect.Setter;
 import tolerant.mapper.transform.Transformer;
 
+/**
+ * A simple transformer implementation, using a simple mapper and a simpler
+ * setter - you can't get simpler than this.
+ */
 public class SimpleTransformer implements Transformer {
 
 	private final Mapper mapper;
 	private final Setter setter;
 
 	public SimpleTransformer() {
-		this.mapper = SimpleFactory.createMapper();
-		this.setter = SimpleFactory.getSetter();
+		this.mapper = SimpleFactory.mapper();
+		this.setter = SimpleFactory.setter();
 	}
 
 	@Override

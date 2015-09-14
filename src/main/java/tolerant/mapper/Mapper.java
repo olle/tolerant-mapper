@@ -27,8 +27,6 @@ import tolerant.mapper.transform.Transformer;
  * 
  * @param <T>
  *            target object type
- * 
- * @author Olle Törnström - olle@studiomediatech.com
  */
 public final class Mapper<T> {
 
@@ -41,9 +39,9 @@ public final class Mapper<T> {
 	private Mapper(Class<T> type) {
 		this.type = type;
 
-		this.instantiator = SimpleFactory.createInstantiator(type);
-		this.collector = SimpleFactory.createCollector();
-		this.transformer = SimpleFactory.createTransformer();
+		this.instantiator = SimpleFactory.instantiator(type);
+		this.collector = SimpleFactory.collector();
+		this.transformer = SimpleFactory.transformer();
 	}
 
 	/**

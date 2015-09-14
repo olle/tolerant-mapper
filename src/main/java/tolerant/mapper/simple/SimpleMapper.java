@@ -6,7 +6,8 @@ import tolerant.mapper.Path.Expression;
 import tolerant.mapper.map.Mapper;
 
 /**
- * The most simple mapper implementation possible.
+ * The most simple mapper implementation I could think of, traverses the map by
+ * recursion and head/tail splitting the dot-string expression.
  */
 public class SimpleMapper implements Mapper {
 

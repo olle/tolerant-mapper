@@ -13,6 +13,10 @@ import tolerant.mapper.Path;
 import tolerant.mapper.Path.Expression;
 import tolerant.mapper.parse.Collector;
 
+/**
+ * This simple collector implementation collects mappings from the specified
+ * type and any declared, extended parent types.
+ */
 public class SimpleCollector implements Collector {
 
 	@Override

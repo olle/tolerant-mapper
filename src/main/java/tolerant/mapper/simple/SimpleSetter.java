@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import tolerant.mapper.reflect.Setter;
 
+/**
+ * Setter implementation using regular of-the-shelf java reflection.
+ */
 public class SimpleSetter implements Setter {
 
 	@Override
