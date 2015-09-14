@@ -14,10 +14,10 @@ import tolerant.mapper.Path.Expression;
 import tolerant.mapper.parse.Collector;
 
 public class SimpleCollector implements Collector {
-	
+
 	@Override
 	public <T> List<Mapping> collectMappings(Class<T> type) {
-		
+
 		List<Mapping> mappings = new ArrayList<>();
 		collectPathMappingsForType(type, mappings);
 		return Collections.unmodifiableList(mappings);

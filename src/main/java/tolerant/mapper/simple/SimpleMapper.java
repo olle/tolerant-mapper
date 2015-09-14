@@ -6,7 +6,7 @@ import tolerant.mapper.Path.Expression;
 import tolerant.mapper.map.Mapper;
 
 /**
- * The most simple mapper implementation possible. 
+ * The most simple mapper implementation possible.
  */
 public class SimpleMapper implements Mapper {
 
@@ -15,7 +15,7 @@ public class SimpleMapper implements Mapper {
 		String value = path.value();
 		return valueForPathInMap(value, map);
 	}
-	
+
 	private Object valueForPathInMap(String path, Map<Object, Object> map) {
 
 		int i = path.indexOf('.');
@@ -41,6 +41,5 @@ public class SimpleMapper implements Mapper {
 
 		return valueForPathInMap(tail, (Map<Object, Object>) object);
 	}
-
 
 }

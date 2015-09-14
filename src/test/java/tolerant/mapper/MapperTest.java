@@ -20,47 +20,46 @@ public class MapperTest {
 	}
 
 	@Test
-    public void ensureMapsMapPropertyToAnnotatedFields() throws Exception {
+	public void ensureMapsMapPropertyToAnnotatedFields() throws Exception {
 
-        Map<Object, Object> properties = new HashMap<>();
-        properties.put("active", true);
+		Map<Object, Object> properties = new HashMap<>();
+		properties.put("active", true);
 
-        Map<Object, Object> raul = new HashMap<>();
-        raul.put("name", "Raul Esteban Marques");
-        raul.put("age", 71);
-        raul.put("properties", properties);
+		Map<Object, Object> raul = new HashMap<>();
+		raul.put("name", "Raul Esteban Marques");
+		raul.put("age", 71);
+		raul.put("properties", properties);
 
-        Map<Object, Object> map = new HashMap<>();
-        map.put("foo", raul);
+		Map<Object, Object> map = new HashMap<>();
+		map.put("foo", raul);
 
-        Foo foo = Mapper.forType(Foo.class).transform(map);
+		Foo foo = Mapper.forType(Foo.class).transform(map);
 
-        Assert.assertEquals("Wrong name", "Raul Esteban Marques", foo.name);
-        Assert.assertEquals("Wrong age", 71, foo.age);
-        Assert.assertEquals("Not active", true, foo.active);
-    }
+		Assert.assertEquals("Wrong name", "Raul Esteban Marques", foo.name);
+		Assert.assertEquals("Wrong age", 71, foo.age);
+		Assert.assertEquals("Not active", true, foo.active);
+	}
 
+	@Test
+	public void ensureMapsMapPropertiesToAnnotatedFieldsAsNullableOptionals() throws Exception {
 
-    @Test
-    public void ensureMapsMapPropertiesToAnnotatedFieldsAsNullableOptionals() throws Exception {
+		Map<Object, Object> vcard = new HashMap<>();
+		vcard.put("nickName", "roggy");
 
-        Map<Object, Object> vcard = new HashMap<>();
-        vcard.put("nickName", "roggy");
+		Map<Object, Object> user = new HashMap<>();
+		user.put("name", "rmoore");
+		user.put("vcard", vcard);
 
-        Map<Object, Object> user = new HashMap<>();
-        user.put("name", "rmoore");
-        user.put("vcard", vcard);
+		Map<Object, Object> map = new HashMap<>();
+		map.put("user", user);
 
-        Map<Object, Object> map = new HashMap<>();
-        map.put("user", user);
+		Bar bar = Mapper.forType(Bar.class).transform(map);
 
-        Bar bar = Mapper.forType(Bar.class).transform(map);
+		Assert.assertEquals("Wrong username", "rmoore", bar.username);
+		Assert.assertEquals("Must not be present", false, bar.niceName.isPresent());
+		Assert.assertEquals("Wrong nickname", "roggy", bar.nickName.get());
+	}
 
-        Assert.assertEquals("Wrong username", "rmoore", bar.username);
-        Assert.assertEquals("Must not be present", false, bar.niceName.isPresent());
-        Assert.assertEquals("Wrong nickname", "roggy", bar.nickName.get());
-    }	
-	
 	public static class Foo {
 		@Path("foo.name")
 		private String name;
