@@ -10,10 +10,11 @@ import java.util.function.Predicate;
 
 import tolerant.mapper.Mapping;
 import tolerant.mapper.Path;
+import tolerant.mapper.Path.Expression;
 import tolerant.mapper.parse.Collector;
 
 public class SimpleCollector implements Collector {
-
+	
 	@Override
 	public <T> List<Mapping> collectMappings(Class<T> type) {
 		
@@ -47,8 +48,9 @@ public class SimpleCollector implements Collector {
 
 		if (hasAnyPathAnnotation.test(field)) {
 			Annotation[] annotations = field.getAnnotations();
-			Annotation pathAnnotation = Arrays.stream(annotations).filter(isPathAnnotation).findFirst().get();
-			Mapping mapping = new Mapping((Path) pathAnnotation, field);
+			Annotation annotation = Arrays.stream(annotations).filter(isPathAnnotation).findFirst().get();
+			Expression path = Expression.valueOf((Path) annotation);
+			Mapping mapping = new Mapping(path, field);
 			mappings.add(mapping);
 		}
 	}

@@ -20,7 +20,7 @@ public class SimpleTransformer implements Transformer {
 	@Override
 	public <T> void transform(Mapping mapping, Map<Object, Object> source, T target) {
 
-		setter.set(mapper.get(mapping.getPath().value(), source), target, mapping.getField());
+		setter.set(mapper.get(mapping.getPath(), source), target, mapping.getField());
 	}
 
 }

@@ -2,17 +2,19 @@ package tolerant.mapper;
 
 import java.lang.reflect.Field;
 
+import tolerant.mapper.Path.Expression;
+
 public final class Mapping {
 
-	private final Path path;
 	private final Field field;
+	private final Expression path;
 
-	public Mapping(Path path, Field field) {
+	public Mapping(Expression path, Field field) {
 		this.path = path;
 		this.field = field;
 	}
 
-	public Path getPath() {
+	public Expression getPath() {
 		return path;
 	}
 

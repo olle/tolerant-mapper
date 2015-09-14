@@ -2,13 +2,18 @@ package tolerant.mapper.simple;
 
 import java.util.Map;
 
+import tolerant.mapper.Path.Expression;
 import tolerant.mapper.map.Mapper;
 
+/**
+ * The most simple mapper implementation possible. 
+ */
 public class SimpleMapper implements Mapper {
 
 	@Override
-	public Object get(String path, Map<Object, Object> map) {
-		return valueForPathInMap(path, map);
+	public Object get(Expression path, Map<Object, Object> map) {
+		String value = path.value();
+		return valueForPathInMap(value, map);
 	}
 	
 	private Object valueForPathInMap(String path, Map<Object, Object> map) {
