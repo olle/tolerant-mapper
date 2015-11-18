@@ -30,26 +30,26 @@ _...yes._
 
 _Oh, yes. Well I'm wondering if you could help me to find a solution more
  in that direction?_
- 
+
 > Of course. Have a look at this
 
     public final class Person {
-    
+
        @Path("id")
        private Long id;
-       
+
        @Path("username")
        private String name;
-       
+
        @Path("details.email")
        private String email;
-       
+
        @Path("details.phone.work")
        private String phone;
-       
+
        @Path("details.phone.mobile")
        private String mobile;
-       
+
     }
 
 > What do you see?
@@ -58,77 +58,90 @@ _It's a POJO, with some annotated fields._
 
 > That's right. Now the `Path` annotation describes a mapping to another
   data structure. Does it look familiar?
-  
+
 _Yeah it looks like some kind of object notation format... is it JSON?_
 
 > It could be. Or just a plain map where each dot is a traversal into another
   map, like a tree structure.
-  
+
 _Cool._
 
 > Now the neat thing is that if the external data format changes, we could
   simply update our mapping, like this:
 
     public final class Person {
-    
+
        @Path("id")
        private Long id;
-       
+
        @Path("details.fullName")
        private String name;
-       
+
        @Path("details.email.primary")
        private String email;
-       
+
        @Path("details.phone.work")
        private String phone;
-       
+
        @Path("details.phone.mobile")
        private String mobile;
-       
+
     }
 
 > It's of course important not to change the semantics of the internal
   representation, but as you see we're fully open to adapt to the
   external format change, without modifying our internal type.
-  
+
 _Wow. Great!_
 
 > It even works with optional data, like this:
 
     public final class Person {
-    
+
        @Path("id")
        private Long id;
-       
+
        @Path("details.fullName")
        private String name;
-       
+
        @Path("details.email.primary")
        private String email;
-       
+
        @Path("details.phone.work")
        private String phone;
-       
+
        @Path("details.phone.mobile")
        private String mobile;
-       
+
        @Path("details.twitter")
        private Optional<String> twitter;
        @Path("details.web")
        private Optional<String> web;
-       
+
     }
 
 > Optional fields are perfect for this type of data, without the need to add
   silly `null`-checks all over your code.
-  
+
+> Oh, and check this out - you can reference fields in arrays by index, so
+  if you need to map just some properties of a list, it's easy.
+
+    public final class PhoneNumbers {
+
+      @Path("user.vcard.phone[3]")
+      private String mobile;
+
+      @Path("user.vcard.phone[1]")
+      private String work
+
+    }
+
 _Perfect! This looks great, so how do I get started?_
 
 > Well for now, you need to build the dependency yourself. It's all very new
   and so. But there will be a Maven artifact in the Sonatype repository some
   time in the near future.
-  
+
 _No problem. I can just `mvn install` right?_
 
 > Yes, that should do it.
@@ -141,7 +154,7 @@ _And how do I actually use it then?_
 
 _Thank you! Finally, decoupling and services without the problem of data
  transfer formats._
- 
+
 > Glad I could help. And happy hacking!
 
 [1]: http://martinfowler.com/bliki/TolerantReader.html

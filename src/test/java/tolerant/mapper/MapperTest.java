@@ -1,5 +1,6 @@
 package tolerant.mapper;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -7,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class MapperTest {
@@ -35,9 +35,9 @@ public class MapperTest {
 
 		Foo foo = Mapper.forType(Foo.class).transform(map);
 
-		Assert.assertEquals("Wrong name", "Raul Esteban Marques", foo.name);
-		Assert.assertEquals("Wrong age", 71, foo.age);
-		Assert.assertEquals("Not active", true, foo.active);
+		assertEquals("Wrong name", "Raul Esteban Marques", foo.name);
+		assertEquals("Wrong age", 71, foo.age);
+		assertEquals("Not active", true, foo.active);
 	}
 
 	@Test
@@ -55,9 +55,26 @@ public class MapperTest {
 
 		Bar bar = Mapper.forType(Bar.class).transform(map);
 
-		Assert.assertEquals("Wrong username", "rmoore", bar.username);
-		Assert.assertEquals("Must not be present", false, bar.niceName.isPresent());
-		Assert.assertEquals("Wrong nickname", "roggy", bar.nickName.get());
+		assertEquals("Wrong username", "rmoore", bar.username);
+		assertEquals("Must not be present", false, bar.niceName.isPresent());
+		assertEquals("Wrong nickname", "roggy", bar.nickName.get());
+	}
+
+	@Test
+	public void ensureMapsArrayPropertiesToAnnotatedFields() throws Exception {
+
+		Map<Object, Object> vcard = new HashMap<>();
+		vcard.put("numbers", new String[] { "132", "321", "123" });
+		Map<Object, Object> user = new HashMap<>();
+		user.put("vcard", vcard);
+		Map<Object, Object> map = new HashMap<>();
+		map.put("user", user);
+
+		Baz baz = Mapper.forType(Baz.class).transform(map);
+
+		assertEquals("Wrong home number", "132", baz.home);
+		assertEquals("Wrong office number", "321", baz.office);
+		assertEquals("Wrong mobile number", "123", baz.mobile);
 	}
 
 	public static class Foo {
@@ -76,6 +93,15 @@ public class MapperTest {
 		private Optional<String> niceName;
 		@Path("user.vcard.nickName")
 		private Optional<String> nickName;
+	}
+
+	public static class Baz {
+		@Path("user.vcard.numbers[0]")
+		private String home;
+		@Path("user.vcard.numbers[1]")
+		private String office;
+		@Path("user.vcard.numbers[2]")
+		private String mobile;
 	}
 
 }

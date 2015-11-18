@@ -19,16 +19,36 @@ public class SimpleMapper implements Mapper {
 
 	private Object valueForPathInMap(String path, Map<Object, Object> map) {
 
-		int i = path.indexOf('.');
+		int splitIndex = path.indexOf('.');
 
-		if (i == -1) {
-			return map.get(path);
+		if (splitIndex == -1) {
+			return valueForLastPathInMap(path, map);
 		}
 
-		String head = path.substring(0, i);
-		String tail = path.substring(i + 1);
+		String head = path.substring(0, splitIndex);
+		String tail = path.substring(splitIndex + 1);
 
 		return valueForPathAndRestInMap(head, tail, map);
+	}
+
+	private Object valueForLastPathInMap(String path, Map<Object, Object> context) {
+
+		int i = path.indexOf('[');
+
+		if (i == -1) {
+			return context.get(path);
+		}
+
+		String key = path.substring(0, i);
+		String index = path.substring(i + 1).replaceAll("]", "");
+
+		Object object = context.get(key);
+
+		if (object == null || !Object[].class.isAssignableFrom(object.getClass())) {
+			throw new IllegalArgumentException(String.format("The path %s does not resolve to an array.", path));
+		}
+
+		return ((Object[]) object)[Integer.parseInt(index)];
 	}
 
 	@SuppressWarnings("unchecked")
@@ -41,6 +61,6 @@ public class SimpleMapper implements Mapper {
 		}
 
 		return valueForPathInMap(tail, (Map<Object, Object>) object);
-	}
 
+	}
 }
