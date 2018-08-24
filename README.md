@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/olle/tolerant-mapper.svg?branch=master)](https://travis-ci.org/olle/tolerant-mapper)
+[![](https://jitpack.io/v/olle/tolerant-mapper.svg)](https://jitpack.io/#olle/tolerant-mapper)
 
 _Hi, have you heard about [TolerantReader][1]?_
 
@@ -138,15 +139,25 @@ _Wow. Great!_
 
 _Perfect! This looks great, so how do I get started?_
 
-> Well for now, you need to build the dependency yourself. It's all very new
-  and so. But there will be a Maven artifact in the Sonatype repository some
-  time in the near future.
+> You can simply use `tolerant-mapper` as a library in your project. Just
+  include it as a Maven dependency from the [Jitpack][3] repository. Then
+  simply add the dependency:
 
-_No problem. I can just `mvn install` right?_
+```xml
+<dependency>
+    <!-- From Jitpack-repo -->
+    <groupId>com.github.olle</groupId>
+    <artifactId>tolerant-mapper</artifactId>
+    <version>${SOME-TAG}</version>
+</dependency>
+```
 
-> Yes, that should do it.
+> Better check out the current [releases][4] for a suitable version though.
 
-_And how do I actually use it then?_
+_Wow, sounds great! I'm going to make sure to check out [Jitpack][3], and read
+ up on how to configure that repository.
+
+_But how do I actually use the `tolerant-mapper` library then?_
 
 > For now, have a look inside the `src/test/java/` directory, look at the
   [`MapperTest`][2]. It describes the general idea, until I get the chance
@@ -159,3 +170,5 @@ _Thank you! Finally, decoupling and services without the problem of data
 
 [1]: http://martinfowler.com/bliki/TolerantReader.html
 [2]: src/test/java/tolerant/mapper/MapperTest.java
+[3]: https://jitpack.io
+[4]: releases/
