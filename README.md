@@ -155,7 +155,7 @@ _Perfect! This looks great, so how do I get started?_
 > Better check out the current [releases][4] for a suitable version though.
 
 _Wow, sounds great! I'm going to make sure to check out [Jitpack][3], and read
- up on how to configure that repository.
+ up on how to configure that repository._
 
 _But how do I actually use the `tolerant-mapper` library then?_
 
