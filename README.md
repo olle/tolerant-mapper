@@ -50,7 +50,6 @@ _Oh, yes. Well I'm wondering if you could help me to find a solution more
 
        @Path("details.phone.mobile")
        private String mobile;
-
     }
 
 > What do you see?
@@ -86,7 +85,6 @@ _Cool._
 
        @Path("details.phone.mobile")
        private String mobile;
-
     }
 
 > It's of course important not to change the semantics of the internal
@@ -118,23 +116,30 @@ _Wow. Great!_
        private Optional<String> twitter;
        @Path("details.web")
        private Optional<String> web;
-
     }
 
 > Optional fields are perfect for this type of data, without the need to add
   silly `null`-checks all over your code.
 
-> Oh, and check this out - you can reference fields in arrays by index, so
-  if you need to map just some properties of a list, it's easy.
+> Oh, and check this out - you can reference fields in arrays or collections,
+  by index, so if you need to map just some properties of a list, it's easy.
 
     public final class PhoneNumbers {
 
-      @Path("user.vcard.phone[3]")
+      @Path("user.vcard.phone(3)")
       private String mobile;
 
-      @Path("user.vcard.phone[1]")
+      @Path("user.vcard.phone(1)")
       private String work
 
+      @Path("user.vcard.address.lines[0]")
+      String street;
+      @Path("user.vcard.address.lines[1]")
+      String postalCode;
+      @Path("user.vcard.address.lines[2]")
+      String city;
+      @Path("user.vcard.address.lines[3]")
+      String country;
     }
 
 _Perfect! This looks great, so how do I get started?_
