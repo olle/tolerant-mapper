@@ -171,4 +171,4 @@ _Thank you! Finally, decoupling and services without the problem of data
 [1]: http://martinfowler.com/bliki/TolerantReader.html
 [2]: src/test/java/tolerant/mapper/MapperTest.java
 [3]: https://jitpack.io
-[4]: releases/
+[4]: https://github.com/olle/tolerant-mapper/releases
