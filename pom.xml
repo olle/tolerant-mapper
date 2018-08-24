@@ -5,7 +5,7 @@
 
 	<groupId>com.studiomediatech.messaging</groupId>
 	<artifactId>tolerant-mapper</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,23 +17,8 @@
 		<developer>
 			<name>Olle Törnström</name>
 			<email>olle@studiomedaitech.com</email>
-			<timezone>GMT+1</timezone>
 		</developer>
 	</developers>
-
-	<repositories>
-		<repository>
-			<id>sonatype-nexus-snapshots</id>
-			<name>Sonatype Nexus Snapshots</name>
-			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
 
 
 	<dependencies>
