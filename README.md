@@ -124,7 +124,7 @@ _Wow. Great!_
 > Oh, and check this out - you can reference fields in arrays or collections,
   by index, so if you need to map just some properties of a list, it's easy.
 
-    public final class PhoneNumbers {
+    public final class ContactInfo {
 
       @Path("user.vcard.phone(3)")
       private String mobile;
